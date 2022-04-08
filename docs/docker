@@ -1,0 +1,9 @@
+docker image rm notification-db
+
+docker container rm notification-db-app
+
+docker build . -t notification-db
+
+docker run --name notification-db-app -d notification-db:latest
+
+docker logs notification-db-app

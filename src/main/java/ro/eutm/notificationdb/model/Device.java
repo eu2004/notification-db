@@ -13,7 +13,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Device {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="notification_user_device_seq",
+            sequenceName="notification_user_device_seq",
+            allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator="notification_user_device_seq")
     @Column(name = "device_id", unique = true, nullable = false)
     private long id;
 
