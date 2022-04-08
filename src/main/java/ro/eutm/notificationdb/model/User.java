@@ -32,11 +32,13 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "userId")
-    private Set<Device> items;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval=true)
+    private Set<Device> devices;
 
-    public User(String email, int countryCode, int phoneNumber, Timestamp createdAt) {
+
+    public User(String email, String address, int countryCode, int phoneNumber, Timestamp createdAt) {
         this.email = email;
+        this.address = address;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.createdAt = createdAt;
@@ -56,5 +58,9 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setDevices(Set<Device> devices) {
+        this.devices = devices;
     }
 }

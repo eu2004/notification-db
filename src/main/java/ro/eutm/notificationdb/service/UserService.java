@@ -2,6 +2,7 @@ package ro.eutm.notificationdb.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.eutm.notificationdb.model.User;
 import ro.eutm.notificationdb.repository.UserRepo;
 
@@ -9,9 +10,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService {
     private final UserRepo userRepo;
     static final String regexPattern = "^(.+)@(\\S+)$";
@@ -20,15 +23,25 @@ public class UserService {
         validateEmail(userEmail);
 
         List<User> users = userRepo.findByEmail(userEmail);
-        if (users != null || !users.isEmpty()) {
+        if (users != null && !users.isEmpty()) {
             boolean deleted = true;
             for (User user : users) {
                 userRepo.delete(user);
-                deleted = deleted && !userRepo.findById(user.getId()).isPresent();
+                deleted = deleted && userRepo.findById(user.getId()).isEmpty();
             }
             return deleted;
         }
         return false;
+    }
+
+    public User create(User user) {
+        User newUser = new User(user.getEmail(), user.getAddress(), user.getCountryCode(), user.getPhoneNumber(), user.getCreatedAt());
+        newUser = save(newUser);
+        User finalNewUser = newUser;
+        newUser.setDevices(user.getDevices().stream()
+                .peek(device -> device.setUserId(finalNewUser))
+                .collect(Collectors.toSet()));
+        return save(newUser);
     }
 
     public User save(User user) {
