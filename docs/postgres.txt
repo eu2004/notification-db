@@ -1,0 +1,10 @@
+docker pull postgres
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
+
+
+
+DROP TABLE IF EXISTS notification_user_device
+DROP TABLE IF EXISTS notification_user
+DROP TABLE IF EXISTS databasechangeloglock
+DROP TABLE IF EXISTS databasechangelog
+DROP TABLE IF EXISTS test_table
