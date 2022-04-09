@@ -1,7 +1,9 @@
 version: "3.8"
 services:
   notification-db-dev:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     hostname: notification-db-dev
     ports:
       - '8080:8080'

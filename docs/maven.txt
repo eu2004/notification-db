@@ -1,0 +1,7 @@
+mvn clean install -X -Dspring.profiles.active=dev
+
+mvn clean install -X -Dspring.profiles.active=prod -Dskip.it.tests=true
+
+
+D:\jdk-11.0.11\bin\java -jar .\notification-db-1.0-SNAPSHOT.jar -Dspring.profiles.active=dev
+D:\jdk-11.0.11\bin\java -jar .\notification-db-1.0-SNAPSHOT.jar -Dspring.config.activate.on-profile=dev -Dspring.profiles.active=dev
