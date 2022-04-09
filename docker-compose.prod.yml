@@ -1,14 +1,14 @@
 version: "3.8"
 services:
-  notification-db-dev:
+  notification-db-prod:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    hostname: notification-db-dev
+      dockerfile: ./Dockerfile.prod
+    hostname: notification-db-prod
     ports:
-      - '8080:8080'
+      - '80:80'
     env_file:
-      - ./notification-db-dev.env
+      - ./notification-db-prod.env
 
 networks:
   default:
