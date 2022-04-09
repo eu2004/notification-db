@@ -7,3 +7,10 @@ docker build . -t notification-db
 docker run --name notification-db-app -d notification-db:latest
 
 docker logs notification-db-app
+
+docker build . -f Dockerfile.prod -t notification-db-prod
+
+docker run -d -p 80:9090 -e POSTGRES_HOST=postgres-dev -e POSTGRES_PORT=5432 -e POSTGRES_DB_NAME=postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres –-network=notification-system-network --name notification-db-app-prod notification-db-prod:latest
+
+docker-compose --file docker-compose.prod.yml up
+

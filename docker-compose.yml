@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  notification-db:
+  notification-db-dev:
     build: .
     hostname: notification-db-dev
     ports:
