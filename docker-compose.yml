@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  notification-db:
+    build: .
+    hostname: notification-db-dev
+    ports:
+      - '8080:8080'
+    env_file:
+      - ./notification-db-dev.env
+
+networks:
+  default:
+    external:
+      name: notification-system-network

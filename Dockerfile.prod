@@ -1,0 +1,16 @@
+#
+# Build stage
+#
+FROM maven:3.8.4-jdk-11-slim AS build
+WORKDIR /apps/notification-db
+COPY src ./src
+COPY pom.xml .
+RUN mvn -f pom.xml clean install -X
+
+#
+# Package stage
+#
+FROM openjdk:11.0.4-jre-slim
+COPY ./target/notification-db-1.0-SNAPSHOT.jar /usr/local/lib/notification-db-1.0-SNAPSHOT.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/local/lib/notification-db-1.0-SNAPSHOT.jar"]

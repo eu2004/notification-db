@@ -13,7 +13,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="notification_user_seq",
+            sequenceName="notification_user_seq",
+            allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator="notification_user_seq")
     @Column(name = "user_id", unique = true, nullable = false)
     private long id;
 

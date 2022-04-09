@@ -13,3 +13,9 @@ CREATE TABLE test_table2 (test_id INT, test_column VARCHAR, PRIMARY KEY (test_id
 -- changeset liquibase:3
 ALTER TABLE notification_user ADD address VARCHAR(255) NULL;
 
+-- changeset liquibase:4
+CREATE  SEQUENCE  notification_user_seq  AS  int  START  WITH  1  INCREMENT  BY  1  MINVALUE  1  MAXVALUE  1000000;
+CREATE  SEQUENCE  notification_user_device_seq  AS  int  START  WITH  1  INCREMENT  BY  1  MINVALUE  1  MAXVALUE  1000000;
+
+
+
