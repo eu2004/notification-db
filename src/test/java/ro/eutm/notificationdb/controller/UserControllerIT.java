@@ -1,5 +1,6 @@
 package ro.eutm.notificationdb.controller;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,6 +31,13 @@ public class UserControllerIT {
     @Autowired
     private MockMvc mvc;
 
+    @BeforeAll
+    public static void setProfile() {
+        if (System.getProperty("spring.profiles.active") == null) {
+            System.setProperty("spring.profiles.active", "dev");
+        }
+    }
+
     @Test
     public void givenUsers_whenGetUser_thenStatus200()
             throws Exception {
@@ -52,7 +60,7 @@ public class UserControllerIT {
         Timestamp createdAt = Timestamp.from(Instant.now());
         User user = new User(userEmail, address, countryCode, phoneNumber, createdAt);
         Device device = new Device(-1, String.valueOf(System.currentTimeMillis()), user);
-        user.setDevices(Collections.singleton(device));
+        user.setDevices(Collections.singletonList(device));
 
         User newUser = userService.create(user);
 
@@ -67,7 +75,7 @@ public class UserControllerIT {
             notificationDevice.setToken(device1.getToken());
             notificationDevice.setId(device1.getId());
             return notificationDevice;
-        }).collect(Collectors.toSet()));
+        }).collect(Collectors.toList()));
 
         return notificationUser;
     }

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +15,7 @@ public class NotificationUser {
     private int countryCode;
     private Timestamp createdAt;
     private String address;
-    private Set<NotificationDevice> devices;
+    private List<NotificationDevice> devices;
 
     public NotificationUser(String email, int phoneNumber, int countryCode, String address) {
         this.email = email;
