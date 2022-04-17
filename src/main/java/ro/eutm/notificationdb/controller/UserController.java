@@ -38,7 +38,7 @@ public class UserController {
                 Timestamp.from(Instant.now()));
         newUser.setDevices(notificationUser.getDevices().stream()
                 .map(notificationDevice -> new Device(notificationDevice.getId(), notificationDevice.getToken(), null))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         newUser = userService.create(newUser);
         return new ResponseEntity<>(convertToDto(newUser), HttpStatus.CREATED);
     }
@@ -57,7 +57,7 @@ public class UserController {
                 Device device = modelMapper.map(notificationDevice, Device.class);
                 device.setUserId(updatedUserObject);
                 return device;
-            }).collect(Collectors.toSet()));
+            }).collect(Collectors.toList()));
             userService.save(updatedUserObject);
             return new ResponseEntity<>(convertToDto(updatedUserObject), HttpStatus.OK);
         }
@@ -96,7 +96,7 @@ public class UserController {
         NotificationUser notificationUserDto = modelMapper.map(user, NotificationUser.class);
         notificationUserDto.setDevices(user.getDevices().stream()
                 .map(device -> modelMapper.map(device, NotificationDevice.class))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         return notificationUserDto;
     }
 

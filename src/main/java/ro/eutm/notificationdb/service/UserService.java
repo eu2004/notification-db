@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,11 +35,6 @@ public class UserService {
 
     public User create(User user) {
         User newUser = new User(user.getEmail(), user.getAddress(), user.getCountryCode(), user.getPhoneNumber(), user.getCreatedAt());
-        newUser = save(newUser);
-        User finalNewUser = newUser;
-        newUser.setDevices(user.getDevices().stream()
-                .peek(device -> device.setUserId(finalNewUser))
-                .collect(Collectors.toSet()));
         return save(newUser);
     }
 

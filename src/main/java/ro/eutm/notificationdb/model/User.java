@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "notification_user")
@@ -13,11 +14,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
     @Id
-    @SequenceGenerator(name="notification_user_seq",
-            sequenceName="notification_user_seq",
-            allocationSize=1)
+    @SequenceGenerator(name = "notification_user_seq",
+            sequenceName = "notification_user_seq",
+            allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator="notification_user_seq")
+            generator = "notification_user_seq")
     @Column(name = "user_id", unique = true, nullable = false)
     private long id;
 
@@ -36,8 +37,8 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval=true)
-    private Set<Device> devices;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Device> devices = new ArrayList<>();
 
 
     public User(String email, String address, int countryCode, int phoneNumber, Timestamp createdAt) {
@@ -64,7 +65,7 @@ public class User {
         this.address = address;
     }
 
-    public void setDevices(Set<Device> devices) {
+    public void setDevices(List<Device> devices) {
         this.devices = devices;
     }
 }

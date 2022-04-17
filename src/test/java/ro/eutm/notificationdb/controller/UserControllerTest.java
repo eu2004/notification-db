@@ -62,7 +62,7 @@ public class UserControllerTest {
     public void testGetUserById() {
         //given
         User user = new User();
-        user.setDevices(Collections.emptySet());
+        user.setDevices(Collections.emptyList());
         when(userService.findById(Mockito.any(Long.class))).thenReturn(Optional.of(user));
         when(modelMapper.map(Mockito.any(User.class), eq(NotificationUser.class))).thenReturn(Mockito.mock(NotificationUser.class));
 
@@ -77,7 +77,7 @@ public class UserControllerTest {
     public void testGetUserByEmail() {
         //given
         User user = new User();
-        user.setDevices(Collections.emptySet());
+        user.setDevices(Collections.emptyList());
         String givenEmail = "givenEmail@email.com";
         when(userService.findByEmail(Mockito.any(String.class))).thenReturn(Optional.of(user));
         when(modelMapper.map(Mockito.any(User.class), eq(NotificationUser.class))).thenReturn(Mockito.mock(NotificationUser.class));
@@ -108,7 +108,7 @@ public class UserControllerTest {
         notificationUserCreate.setEmail("1");
         notificationUserCreate.setCountryCode(1);
         notificationUserCreate.setPhoneNumber(1);
-        notificationUserCreate.setDevices(Collections.emptySet());
+        notificationUserCreate.setDevices(Collections.emptyList());
         return notificationUserCreate;
     }
 
@@ -118,7 +118,7 @@ public class UserControllerTest {
         notificationUserUpdate.setEmail("1");
         notificationUserUpdate.setCountryCode(1);
         notificationUserUpdate.setPhoneNumber(1);
-        notificationUserUpdate.setDevices(Collections.emptySet());
+        notificationUserUpdate.setDevices(Collections.emptyList());
         return notificationUserUpdate;
     }
 }
