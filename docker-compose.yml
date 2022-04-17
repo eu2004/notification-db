@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        - JASYPT_ENCRYPTOR_PASSWORD=SuperS3ecr3etZ
     hostname: notification-db-dev
     ports:
       - '8080:8080'

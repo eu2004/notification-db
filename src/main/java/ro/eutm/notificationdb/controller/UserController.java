@@ -35,10 +35,10 @@ public class UserController {
                 notificationUser.getAddress(),
                 notificationUser.getCountryCode(),
                 notificationUser.getPhoneNumber(),
-                Timestamp.from(Instant.now()));
-        newUser.setDevices(notificationUser.getDevices().stream()
-                .map(notificationDevice -> new Device(notificationDevice.getId(), notificationDevice.getToken(), null))
-                .collect(Collectors.toList()));
+                Timestamp.from(Instant.now()),
+                notificationUser.getDevices().stream()
+                        .map(notificationDevice -> new Device(notificationDevice.getToken(), null))
+                        .collect(Collectors.toSet()));
         newUser = userService.create(newUser);
         return new ResponseEntity<>(convertToDto(newUser), HttpStatus.CREATED);
     }
@@ -55,15 +55,15 @@ public class UserController {
             updatedUserObject.setDevices(notificationUser.getDevices().stream().map(notificationDevice
                     -> {
                 Device device = modelMapper.map(notificationDevice, Device.class);
-                device.setUserId(updatedUserObject);
+                device.setUser(updatedUserObject);
                 return device;
-            }).collect(Collectors.toList()));
+            }).collect(Collectors.toSet()));
             userService.save(updatedUserObject);
             return new ResponseEntity<>(convertToDto(updatedUserObject), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new NotificationUser(notificationUser.getEmail(), notificationUser.getPhoneNumber(),
-                notificationUser.getCountryCode(), notificationUser.getAddress()), HttpStatus.NOT_FOUND);
+                notificationUser.getCountryCode(), notificationUser.getAddress(), notificationUser.getDevices()), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
