@@ -17,10 +17,11 @@ public class NotificationUser {
     private String address;
     private List<NotificationDevice> devices;
 
-    public NotificationUser(String email, int phoneNumber, int countryCode, String address) {
+    public NotificationUser(String email, int phoneNumber, int countryCode, String address, List<NotificationDevice> devices) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.countryCode = countryCode;
         this.address = address;
+        this.devices = devices;
     }
 }

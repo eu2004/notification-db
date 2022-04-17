@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "notification_user")
@@ -37,16 +37,17 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Device> devices = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Device> devices;
 
 
-    public User(String email, String address, int countryCode, int phoneNumber, Timestamp createdAt) {
+    public User(String email, String address, int countryCode, int phoneNumber, Timestamp createdAt, Set<Device> devices) {
         this.email = email;
         this.address = address;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.createdAt = createdAt;
+        this.devices = devices;
     }
 
     public void setEmail(String email) {
@@ -65,7 +66,20 @@ public class User {
         this.address = address;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(Set<Device> devices) {
         this.devices = devices;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && countryCode == user.countryCode && phoneNumber == user.phoneNumber && Objects.equals(email, user.email) && Objects.equals(createdAt, user.createdAt) && Objects.equals(address, user.address) && Objects.equals(devices, user.devices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, countryCode, phoneNumber, createdAt, address, devices);
     }
 }

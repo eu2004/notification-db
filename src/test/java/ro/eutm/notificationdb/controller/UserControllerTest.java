@@ -62,7 +62,7 @@ public class UserControllerTest {
     public void testGetUserById() {
         //given
         User user = new User();
-        user.setDevices(Collections.emptyList());
+        user.setDevices(Collections.emptySet());
         when(userService.findById(Mockito.any(Long.class))).thenReturn(Optional.of(user));
         when(modelMapper.map(Mockito.any(User.class), eq(NotificationUser.class))).thenReturn(Mockito.mock(NotificationUser.class));
 
@@ -77,7 +77,7 @@ public class UserControllerTest {
     public void testGetUserByEmail() {
         //given
         User user = new User();
-        user.setDevices(Collections.emptyList());
+        user.setDevices(Collections.emptySet());
         String givenEmail = "givenEmail@email.com";
         when(userService.findByEmail(Mockito.any(String.class))).thenReturn(Optional.of(user));
         when(modelMapper.map(Mockito.any(User.class), eq(NotificationUser.class))).thenReturn(Mockito.mock(NotificationUser.class));

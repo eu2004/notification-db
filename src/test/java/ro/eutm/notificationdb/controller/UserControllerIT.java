@@ -58,9 +58,8 @@ public class UserControllerIT {
         int countryCode = (int) (System.currentTimeMillis() % 100000);
         int phoneNumber = (int) System.currentTimeMillis();
         Timestamp createdAt = Timestamp.from(Instant.now());
-        User user = new User(userEmail, address, countryCode, phoneNumber, createdAt);
-        Device device = new Device(-1, String.valueOf(System.currentTimeMillis()), user);
-        user.setDevices(Collections.singletonList(device));
+        User user = new User(userEmail, address, countryCode, phoneNumber, createdAt,
+                Collections.singleton(new Device(String.valueOf(System.currentTimeMillis()), null)));
 
         User newUser = userService.create(user);
 

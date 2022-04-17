@@ -3,12 +3,12 @@ package ro.eutm.notificationdb.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.eutm.notificationdb.model.Device;
 import ro.eutm.notificationdb.model.User;
+import ro.eutm.notificationdb.repository.DeviceRepo;
 import ro.eutm.notificationdb.repository.UserRepo;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 @Transactional
 public class UserService {
     private final UserRepo userRepo;
+    private final DeviceRepo deviceRepo;
     static final String regexPattern = "^(.+)@(\\S+)$";
 
     public boolean deleteByEmail(String userEmail) {
@@ -34,8 +35,15 @@ public class UserService {
     }
 
     public User create(User user) {
-        User newUser = new User(user.getEmail(), user.getAddress(), user.getCountryCode(), user.getPhoneNumber(), user.getCreatedAt());
-        return save(newUser);
+        Set<Device> devices = new HashSet<>(user.getDevices());
+        user.setDevices(Collections.emptySet());
+        User newUser = save(user);
+        devices.forEach(device -> {
+            device.setUser(newUser);
+            deviceRepo.save(device);
+        });
+        newUser.setDevices(devices);
+        return newUser;
     }
 
     public User save(User user) {
